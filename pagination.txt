@@ -1,0 +1,218 @@
+To implement **AngularJS pagination with search functionality** in a **CodeIgniter 3** application, you need to follow these steps:
+
+1. **Backend (CodeIgniter 3)**:
+   - Create a controller to handle the data fetching and pagination logic.
+   - Create a model to interact with the database.
+   - Return JSON responses for the AngularJS frontend.
+
+2. **Frontend (AngularJS)**:
+   - Use AngularJS to handle the pagination and search functionality.
+   - Make HTTP requests to the CodeIgniter backend to fetch data.
+
+---
+
+### Step 1: Backend (CodeIgniter 3)
+
+#### 1.1. **Model (`App_model.php`)**:
+Create a model to fetch data from the database.
+
+```php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class App_model extends CI_Model {
+
+    public function __construct() {
+        parent::__construct();
+    }
+
+    // Fetch data with pagination and search
+    public function get_data($limit, $offset, $search = '') {
+        $this->db->select('*');
+        $this->db->from('your_table_name'); // Replace with your table name
+
+        if (!empty($search)) {
+            $this->db->like('column_name', $search); // Replace 'column_name' with the column you want to search
+        }
+
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    // Count total records for pagination
+    public function count_all($search = '') {
+        if (!empty($search)) {
+            $this->db->like('column_name', $search); // Replace 'column_name' with the column you want to search
+        }
+        return $this->db->count_all_results('your_table_name'); // Replace with your table name
+    }
+}
+```
+
+---
+
+#### 1.2. **Controller (`Api.php`)**:
+Create a controller to handle API requests.
+
+```php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Api extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('app_model');
+    }
+
+    // Fetch data with pagination and search
+    public function get_data() {
+        $page = $this->input->get('page') ? $this->input->get('page') : 1;
+        $limit = $this->input->get('limit') ? $this->input->get('limit') : 10;
+        $search = $this->input->get('search') ? $this->input->get('search') : '';
+
+        $offset = ($page - 1) * $limit;
+
+        $data['items'] = $this->app_model->get_data($limit, $offset, $search);
+        $data['total'] = $this->app_model->count_all($search);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
+    }
+}
+```
+
+---
+
+### Step 2: Frontend (AngularJS)
+
+#### 2.1. **HTML (`index.html`)**:
+Create the HTML structure for the pagination and search.
+
+```html
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Pagination with Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+    <div class="container mt-5">
+        <h2>Pagination with Search</h2>
+        <input type="text" ng-model="search" ng-change="fetchData()" placeholder="Search..." class="form-control mb-3">
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in items">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" ng-class="{ disabled: currentPage == 1 }">
+                    <a class="page-link" href="#" ng-click="prevPage()">Previous</a>
+                </li>
+                <li class="page-item" ng-repeat="page in pages" ng-class="{ active: page == currentPage }">
+                    <a class="page-link" href="#" ng-click="goToPage(page)">{{ page }}</a>
+                </li>
+                <li class="page-item" ng-class="{ disabled: currentPage == totalPages }">
+                    <a class="page-link" href="#" ng-click="nextPage()">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('MainCtrl', function($scope, $http) {
+            $scope.items = [];
+            $scope.currentPage = 1;
+            $scope.limit = 10;
+            $scope.total = 0;
+            $scope.search = '';
+
+            $scope.fetchData = function() {
+                $http.get('http://your-codeigniter-url/api/get_data', {
+                    params: {
+                        page: $scope.currentPage,
+                        limit: $scope.limit,
+                        search: $scope.search
+                    }
+                }).then(function(response) {
+                    $scope.items = response.data.items;
+                    $scope.total = response.data.total;
+                    $scope.totalPages = Math.ceil($scope.total / $scope.limit);
+                    $scope.pages = [];
+                    for (var i = 1; i <= $scope.totalPages; i++) {
+                        $scope.pages.push(i);
+                    }
+                });
+            };
+
+            $scope.goToPage = function(page) {
+                $scope.currentPage = page;
+                $scope.fetchData();
+            };
+
+            $scope.nextPage = function() {
+                if ($scope.currentPage < $scope.totalPages) {
+                    $scope.currentPage++;
+                    $scope.fetchData();
+                }
+            };
+
+            $scope.prevPage = function() {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
+                    $scope.fetchData();
+                }
+            };
+
+            // Initial load
+            $scope.fetchData();
+        });
+    </script>
+</body>
+</html>
+```
+
+---
+
+### Step 3: Explanation
+
+1. **Backend**:
+   - The `App_model` fetches data from the database with pagination and search.
+   - The `Api` controller returns JSON data to the AngularJS frontend.
+
+2. **Frontend**:
+   - AngularJS handles the pagination and search functionality.
+   - The `fetchData` function makes an HTTP request to the CodeIgniter backend to fetch data.
+   - Pagination links are dynamically generated based on the total number of records.
+
+---
+
+### Step 4: Testing
+
+1. Replace `your_table_name` and `column_name` in the model with your actual table and column names.
+2. Update the CodeIgniter base URL in the AngularJS HTTP request.
+3. Run the application and test the pagination and search functionality.
+
+---
+
+This implementation provides a clean and efficient way to handle pagination and search in a CodeIgniter 3 application using AngularJS.
