@@ -1,0 +1,142 @@
+<div class="card shadow-lg p-4 " ng-controller="UserController" ng-init="getCountry();getSkill();">
+    <h2 class="text-center mb-4">User Registration</h2>
+    <!-- ng-submit="registerUser(user)"  -->
+    <form  name="registrationForm" enctype="multipart/form-data" novalidate >
+
+      <input type="hidden" class="form-control" name="countryCode" ng-model="user.countryCode" >
+     
+       <div class="row">
+          <div class="col-md-6">
+             <!-- Name -->
+             <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" name="name" ng-model="user.name" placeholder="Enter full name"  ng-blur="validateForm()"  >
+                <span style="color:red;" ng-show="errors.name">{{ errors.name }}</span>
+             </div>
+          </div>
+          <div class="col-md-6">
+             <!-- Email -->
+             <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="text"  class="form-control" ng-model="user.email" name="email"  placeholder="Enter email" ng-blur="validateForm()" />
+                <span style="color:red;" ng-show="errors.email">{{ errors.email }}</span>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-6">
+             <!-- Country -->
+             <div class="mb-3">
+                <label class="form-label">Country</label>
+                <select class="form-select" name="country"  ng-change="onCountryChange()" ng-model="user.country" ng-blur="validateForm()">
+                   <option value="" disabled selected>Select your country</option>
+                   <option ng-repeat="country in countries" value="{{country.id}}">
+                      {{country.name}}
+                   </option>
+<!-- 
+                   <option ng-repeat="country in countries" value="{{country.phonecode}}/{{country.name}}">
+                     {{country.name}}
+                  </option> -->
+                </select>
+                <span style="color:red;" ng-show="errors.country">{{ errors.country }}</span>
+             </div>
+          </div>
+          <div class="col-md-6">
+             <!-- Phone -->
+             <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <div class="input-group mb-3">
+                   <div class="input-group-prepend">
+                      <select class="form-select" name="countryCode" ng-model="user.countryCode" ng-blur="validateForm()">
+                         <option value="" disabled selected></option>
+                         <option ng-repeat="country in countries" value="{{country.phonecode}}">
+                            +{{country.phonecode}}
+                         </option>
+                      </select>
+                   </div>
+                   <input type="text" class="form-control" ng-model="user.phone" name="phone"  placeholder="Enter phone number" >
+                </div>
+                <span style="color:red;" ng-show="errors.phone">{{ errors.phone }}</span>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-6">
+
+
+            <div class="mb-3">
+               <label class="form-label">Upload Image</label>
+               <input type="file" class="form-control" file-model="user.image">
+               <span style="color:red;" ng-show="errors.image">{{ errors.image }}</span>
+            </div>
+
+         
+
+          </div>
+          <div class="col-md-6">
+             <!-- Date of Birth -->
+             <div class="mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="text" id="dob" class="form-control" name="dob" ng-model="user.dob" ng-blur="validateForm()" >
+                <span style="color:red;" ng-show="errors.dob">{{ errors.dob }}</span>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-6">
+             <!-- Gender -->
+             <div class="mb-3">
+                <label class="form-label">Gender</label>
+                <div class="form-check">
+                   <input class="form-check-input" type="radio" ng-model="user.gender" name="gender" value="Male" >
+                   <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check">
+                   <input class="form-check-input" type="radio" ng-model="user.gender" name="gender" value="Female">
+                   <label class="form-check-label">Female</label>
+                </div>
+                <span style="color:red;" ng-show="errors.gender">{{ errors.gender }}</span>
+             </div>
+             <!-- Interests (Checkbox) -->
+          </div>
+          <div class="col-md-6">
+             <div class="mb-3">
+                <label class="form-label">Interests</label>
+                <div class="form-check" ng-repeat="skill in skills ">
+                   <input class="form-check-input"  type="checkbox" ng-model="user.skills[$index]" ng-true-value="'{{skill.id}}'" ng-false-value="'{{skill.name}}'">
+                   <label class="form-check-label"> {{ skill.skill }}</label>
+                </div>
+                <span style="color:red;" ng-show="errors.skills">{{ errors.skills }}</span>
+             </div>
+          </div>
+       </div>
+
+       
+             <!-- Address -->
+             <div class="mb-3">
+               <label class="form-label">Address</label>
+               <textarea class="form-control" name="address" rows="3" ng-model="user.address" placeholder="Enter your address" ng-blur="validateForm()"></textarea>
+               <span style="color:red;" ng-show="errors.address">{{ errors.address }}</span>
+            </div>
+       <!-- Terms & Conditions -->
+       <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" name="agree" id="agree" value="1" ng-model="user.agree" required>
+          <label class="form-check-label" for="agree">I agree to the terms & conditions</label>
+          <span style="color:red;" ng-show="errors.agree">{{ errors.agree }}</span>
+       </div>
+
+
+       <!-- Submit Button -->
+       <button type="button" class="btn btn-primary w-100"  ng-click="registerUser()">Register</button>
+    </form>
+ </div>
+ <script>
+    $(document).ready(function() {
+        $("#dob").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1900:2025"
+        });
+    });
+ </script>
