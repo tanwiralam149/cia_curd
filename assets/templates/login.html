@@ -1,0 +1,35 @@
+
+    
+
+<div class="row mt-30" style="padding: 50px;" >
+   <div class="col-md-3"></div>
+   <div class="col-md-6">
+    <div class=" card " >
+        <div class="container" ng-controller="LoginController">
+         <h2>User Login</h2>
+         {{message}}
+            <form name="loginForm" style="margin: 20px;" >
+              <div class="mb-3 mt-3">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" ng-model="user.email" id="email" placeholder="Enter email" >
+              </div>
+              <div class="mb-3">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" ng-model="user.password" id="pwd" placeholder="Enter password" >
+              </div>
+              <div class="form-check mb-3">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" name="remember"> Remember me
+                </label>
+              </div>
+              <button type="button" class="btn btn-primary" ng-disabled="isProcessing" ng-click="userLogin()">{{isProcessing  ? 'Please wait....' : 'Login'}}</button>
+            </form>
+          </div>
+          
+    </div>
+   </div>
+   <div class="col-md-3"></div>
+</div>
+
+
+

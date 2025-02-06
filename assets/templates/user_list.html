@@ -62,20 +62,7 @@
           </tbody>
         </table>
         <!-- Pagination -->
-        <nav>
-          <ul class="pagination">
-              <li class="page-item" ng-class="{ disabled: currentPage == 1 }">
-                  <a class="page-link" href="#" ng-click="prevPage()">Previous</a>
-              </li>
-              <li class="page-item" ng-repeat="page in pages" ng-class="{ active: page == currentPage }">
-                  <a class="page-link" href="#" ng-click="goToPage(page)">{{ page }}</a>
-              </li>
-              <li class="page-item" ng-class="{ disabled: currentPage == totalPages }">
-                  <a class="page-link" href="#" ng-click="nextPage()">Next</a>
-              </li>
-          </ul>
-      </nav>
-    
+        
     
 </div>
 

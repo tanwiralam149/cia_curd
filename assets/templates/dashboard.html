@@ -1,0 +1,13 @@
+<div ng-controller="DashboardController">
+
+    {{isLoggedIn ? 'Login' :'Not Login'}}
+    <h2>Welcome, {{ user.name }}</h2>
+    <button ng-click="logout()">Logout</button>
+</div>
+
+<script>
+    // var user = JSON.parse(localStorage.getItem('user'));
+    // if (!user) {
+    //     window.location.href = "login.html"; // Redirect if not logged in
+    // }
+</script>

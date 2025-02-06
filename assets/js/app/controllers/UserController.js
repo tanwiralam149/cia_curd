@@ -1,5 +1,10 @@
 app.controller('UserController', function($scope, $http,$routeParams,$location) {
 
+
+    if (!localStorage.getItem("user")) {
+        $location.path('/login');
+    }
+
    // $scope.user = {};
     $scope.user = { skills: [] };
     $scope.countries = [];
@@ -11,7 +16,9 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
     $scope.errors = {};
     $scope.skills={};
     $scope.selectedSkills = [];
+    $scope.isProcessing = false; // Button state
 
+    
 
     $scope.validateForm = function () {
         $scope.errors = {}; // Reset errors
@@ -93,9 +100,6 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
 
         var countryId=$scope.user.country;
         if($scope.user.country){
-            // console.log("SELECT COUNTRY ",$scope.user.country);
-            // $scope.code = $scope.user.country?.split("/");
-            // $scope.user.countryCode =$scope.code[0];
 
             $http({ url:"http://localhost/cia_curd/index.php/users/getCountryById", data:countryId , method: 'POST', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(function(response) {
@@ -132,7 +136,7 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
 
     $scope.registerUser=function(){
         $scope.submitted = true; // Set flag to show errors
-
+        $scope.isProcessing = true; // Disable button when request starts
         if ($scope.validateForm()) {
             var postData = {
                 name: $scope.user.name,
@@ -162,13 +166,16 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
                 } else {
                     toastr.error(response.data.message, "Error!");
                 }
+                $scope.isProcessing = false; // Enable button when request completes
             }, function(error) {
                 console.error("Error:", error);
                 toastr.error("Something went wrong. Please try again.", "Error!");
+                $scope.isProcessing = false;
             });
 
         }else {
             alert("Please fix the errors before submitting.");
+            $scope.isProcessing = false;
         }
   
     }
@@ -185,7 +192,7 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
             if (response.data.status) {
                
                 $scope.user = response.data.user;
-              
+
                 $scope.selectedSkills = response.data.user.skills.map(skill => skill.skill_id);
                 $scope.user={
                     id:response.data.user.id,
@@ -211,7 +218,7 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
 
    $scope.updateRegisterUser=function(){
         $scope.submitted = true; // Set flag to show errors
-
+        $scope.isProcessing = true; // Enable button when request completes
         if ($scope.validateForm()) {
            
             var postData = {
@@ -243,12 +250,15 @@ app.controller('UserController', function($scope, $http,$routeParams,$location) 
             } else {
                 toastr.error(response.data.message, "Error!");
             }
+            $scope.isProcessing = false; // Enable button when request completes
         }, function(error) {
             console.error("Error:", error);
             toastr.error("Something went wrong. Please try again.", "Error!");
+            $scope.isProcessing = false; // Enable button when request completes
         });
         }else{
          alert('Please filled all required field');
+       
         }
   
    }

@@ -6,6 +6,7 @@ class Users extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->library('email');
     }
 
     public function getAllSkill(){
@@ -67,12 +68,52 @@ class Users extends CI_Controller {
             );
     
             $user_id = $this->User_model->insertUser($data);
-    
+          
             if ($user_id) {
-                
                 $this->User_model->saveUserSkills($user_id, $postData['skills']);
+                /*Send Mail After User Register successfully */
+                  // Load email template with user data
 
-                echo json_encode(["status" => "success", "message" => "User registered successfully!"]);
+                  $user_data = array(
+                    'name'  => $postData['name'],
+                    'email' => $postData['email'],
+                    'phone' => $postData['phone']
+                 );
+        
+                 $email_message = $this->load->view('email_templates', $user_data, TRUE);
+
+                    $config = Array(
+                        'protocol' => 'smtp',
+                        'smtp_host' => 'sandbox.smtp.mailtrap.io',
+                        'smtp_port' => 587 ,
+                        'smtp_user' => '8fb617cf37c10a',
+                        'smtp_pass' => '3866d1b90babd1',
+                        'smtp_crypto' => 'tls',
+                        'crlf' => "\r\n",
+                        'newline' => "\r\n",
+                        'mailtype'  => 'html',
+                        'charset'   => 'utf-8',
+                       
+                    );
+                                    
+                $this->email->initialize($config);
+                $this->email->set_newline("\r\n");
+                $this->email->from('webgrity149@gmail.com', 'CI ANGULAR');
+                $this->email->to($postData['email']);
+                $this->email->subject('Registration Successfully!');
+                $this->email->message($email_message);
+                // $this->email->subject('Registration Successful');
+                // $this->email->message('<p>Thank you for registering!</p>');
+                
+                if ($this->email->send()) {
+                    //echo "Email sent successfully";
+                    echo json_encode(["status" => "success", "message" => "User registered successfully, Email send!"]);
+                } else {
+                   // echo $this->email->print_debugger();
+                  echo json_encode(["status" => "success", "message" => "User registered successfully"]);
+                }
+                
+                //echo json_encode(["status" => "success", "message" => "User registered successfully!"]);
             } else {
                 echo json_encode(["status" => "error", "message" => "Failed to register user."]);
             }
