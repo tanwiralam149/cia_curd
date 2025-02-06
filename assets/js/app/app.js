@@ -7,7 +7,7 @@ app.config(function($routeProvider) {
        
         .when('/', {
             templateUrl: 'assets/templates/home.html?v='+v,
-            controller: 'UserController'
+            controller: 'HomeController'
         })
         .when('/users', {
             templateUrl: 'assets/templates/user_list.html?v='+v,
@@ -33,6 +33,10 @@ app.config(function($routeProvider) {
 });
 
 
+
+app.controller('HomeController',function($scope){
+     
+});
 // MainController to manage login state globally
 app.controller('MainController', function($scope, $rootScope, $location) {
     $rootScope.isLoggedIn = localStorage.getItem("user") ? true : false;
