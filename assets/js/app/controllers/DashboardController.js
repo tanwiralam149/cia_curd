@@ -12,6 +12,15 @@ app.controller('DashboardController', function($scope,$http,$rootScope, $window,
          $location.path('/login');
     }
     
+    var data = [
+        { name: "name", value: "John" },
+        { name: "age", value: 30 },
+        { name: "city", value: "New York" }
+    ];
+    
+    var queryString = $.param(data);
+    console.log("queryString",queryString); // Output: "name=John&age=30&city=New+York"
+
     $scope.getLoginUserDetail=function(){
         var userId = $scope.loginUser.id;
            

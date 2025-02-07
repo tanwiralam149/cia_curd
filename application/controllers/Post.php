@@ -22,9 +22,12 @@ class Post extends CI_Controller {
 
     public function savePost(){
         header('Content-Type: application/json');
-        print_r($_post['']);
+        print_r($this->input->post());
+
+        $title=$this->input->post('title');
+        $category_id=$this->input->post('category_id');
+        $description=$this->input->post('description');
         
-        $title=$_POST['title'];
         $timestamp = date("Ymd_His");
         if (!empty($_FILES['file']['name'])) {
             $uploadPath = './uploads/';

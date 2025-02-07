@@ -25,7 +25,7 @@
                 <!-- Post Image -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Post Image</label>
-                    <input type="file" class="form-control" id="image" name="postImage"  ng-model="post.image" accept="image/*" required>
+                    <input type="file" class="form-control" onchange="angular.element(this).scope().selectImage(this.files)" id="image" name="postImage"  accept="image/*" required>
                 </div>
         
                 <!-- Post Description -->
