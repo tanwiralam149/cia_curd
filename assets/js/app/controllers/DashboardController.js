@@ -20,7 +20,7 @@ app.controller('DashboardController', function($scope,$http,$rootScope, $window,
         .then(function(response) {
             if (response.data.status) {
                 $scope.user = response.data.user;
-                console.log("Dashboard Login USER DATA",$scope.user);
+               // console.log("Dashboard Login USER DATA",$scope.user);
             } else {
                 toastr.error(response.data.message);
             }

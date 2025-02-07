@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <h2>Add New Post</h2>
+    <form action="/add-post" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Post</button>
+    </form>
+</div>

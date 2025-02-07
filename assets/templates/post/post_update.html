@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <h2>Update Post</h2>
+    <form action="/update-post/1" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="Sample Title" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required>Sample Content</textarea>
+        </div>
+        <button type="submit" class="btn btn-warning">Update Post</button>
+    </form>
+</div>

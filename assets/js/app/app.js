@@ -29,6 +29,19 @@ app.config(function($routeProvider) {
             templateUrl: 'assets/templates/dashboard.html?v='+v,
             controller: 'DashboardController'
         })
+
+        .when('/posts', {
+            templateUrl: 'assets/templates/post/post_list.html?v='+v,
+            controller: 'PostController'
+        })
+        .when('/posts/add', {
+            templateUrl: 'assets/templates/post/post_add.html?v='+v,
+            controller: 'PostController'
+        })
+        .when('/posts/edit/:id', {
+            templateUrl: 'assets/templates/post/post_update.html?v='+v,
+            controller: 'PostController'
+        })
         .otherwise({ redirectTo: '/' });
 });
 
