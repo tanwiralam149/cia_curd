@@ -276,9 +276,10 @@ INSERT INTO `skill` (`id`, `skill`) VALUES
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `dob` date DEFAULT NULL,
   `gender` enum('Male','Female') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -290,15 +291,16 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `user` (`id`, `name`, `email`, `phone`, `address`, `dob`, `gender`, `country`, `countryCode`, `agree`, `hobbies`, `image`) VALUES
-(63,	'Mark Ortiz',	'tizypu@mailinator.com',	'9966332210',	'Velit similique et e',	'2025-02-28',	'Male',	149,	977,	1,	NULL,	NULL),
-(64,	'Tanwir Alam',	'tanwir@gmail.com',	'9955117755',	'KOLKATA',	'2025-02-23',	'Male',	9,	1268,	1,	NULL,	NULL),
-(65,	'Florence Dickson',	'wumom@mailinator.com',	'8855114400',	'Consequatur possimus',	'2025-02-04',	'Female',	176,	40,	1,	NULL,	NULL),
-(66,	'Denise Ford',	'xuhupigiz@mailinator.com',	'8855114400',	'Eos sunt itaque dolo',	'2025-02-22',	'Male',	102,	964,	1,	NULL,	NULL),
-(67,	'Catherine Roth',	'lanegofy@mailinator.com',	'8855114400',	'Quo proident eius v',	'2025-02-06',	'Male',	187,	966,	1,	NULL,	NULL),
-(68,	'Jackson Tillman',	'fonojo@mailinator.com',	'8877441122',	'Magni praesentium an',	'0000-00-00',	'Male',	235,	681,	1,	NULL,	NULL),
-(69,	'Zena Hensley',	'gawixow@mailinator.com',	'9966330011',	'Aut est facilis plac',	'0000-00-00',	'Male',	205,	46,	1,	NULL,	NULL),
-(70,	'Idola Dunlap',	'jewoqufut@mailinator.com',	'9955117755',	'Ex consequatur Qui',	'0000-00-00',	'Female',	87,	1671,	1,	NULL,	NULL);
+INSERT INTO `user` (`id`, `phone`, `name`, `email`, `password`, `address`, `dob`, `gender`, `country`, `countryCode`, `agree`, `hobbies`, `image`) VALUES
+(2,	'9966332211',	'MD ALI',	'ali@gmail.com',	'123456',	'KOLKATA',	'2025-02-26',	'Male',	99,	91,	1,	NULL,	NULL),
+(3,	'8855114400',	'Prakash',	'prakash@gmail.com',	NULL,	'KOLKATA',	'2025-02-27',	'Male',	99,	91,	1,	NULL,	NULL),
+(4,	'9966332211',	'Mustafa Alam',	'mustafa@gmail.com',	NULL,	'KOLKATA , INDIA',	'2025-02-26',	'Male',	99,	91,	1,	NULL,	NULL),
+(5,	'8855114400',	'Tanwir Alam',	'tanwiralam479@gmail.com',	'123456',	'KOLKATA',	'2025-02-25',	'Male',	99,	91,	1,	NULL,	'20250207_071540-images.jpg'),
+(6,	'8855114400',	'Md Hussain',	'mdhussain@gmail.com',	NULL,	'KOlkata',	'2025-02-26',	'Male',	10,	54,	1,	NULL,	NULL),
+(7,	'8855114400',	'Tanwir Alam',	'tanwiralam479@gmail.com',	NULL,	'KOLKLATA INDIA',	'2025-02-26',	'Male',	11,	374,	1,	NULL,	NULL),
+(8,	'8855114400',	'Suman Haldar',	'suman@gmail.com',	NULL,	'KOLKATA INDIA',	'2025-02-27',	'Male',	98,	354,	1,	NULL,	NULL),
+(13,	'8855114400',	'Tipu',	'tipu@gmail.com',	NULL,	'KOLKATA',	'2025-02-24',	'Male',	1,	93,	1,	NULL,	NULL),
+(12,	'8855114400',	'Tanwir Alam',	'tanwir123@gmail.com',	NULL,	'KOLKATA INDIA',	'2025-02-08',	'Male',	12,	297,	1,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `user_skill`;
 CREATE TABLE `user_skill` (
@@ -310,40 +312,36 @@ CREATE TABLE `user_skill` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `user_skill` (`id`, `user_id`, `skill_id`, `skill_name`) VALUES
-(28,	59,	1,	'PHP'),
-(10,	58,	1,	'PHP'),
-(11,	58,	4,	'MYSQL'),
-(29,	59,	3,	'JAVA'),
-(30,	59,	4,	'MYSQL'),
-(44,	57,	2,	'JAVASCRIPT'),
-(43,	57,	1,	'PHP'),
-(45,	60,	1,	'PHP'),
-(46,	60,	2,	'JAVASCRIPT'),
-(47,	60,	4,	'MYSQL'),
-(48,	61,	1,	'PHP'),
-(49,	61,	3,	'JAVA'),
-(50,	61,	4,	'MYSQL'),
-(56,	62,	3,	'JAVA'),
-(55,	62,	1,	'PHP'),
-(67,	65,	2,	'JAVASCRIPT'),
-(66,	63,	2,	'JAVASCRIPT'),
-(65,	63,	1,	'PHP'),
-(60,	64,	1,	'PHP'),
-(61,	64,	2,	'JAVASCRIPT'),
-(62,	64,	3,	'JAVA'),
-(68,	65,	3,	'JAVA'),
-(69,	66,	1,	'PHP'),
-(70,	66,	3,	'JAVA'),
-(71,	66,	4,	'MYSQL'),
-(82,	67,	2,	'JAVASCRIPT'),
-(81,	67,	1,	'PHP'),
-(74,	68,	2,	'JAVASCRIPT'),
-(75,	68,	3,	'JAVA'),
-(76,	68,	4,	'MYSQL'),
-(77,	69,	1,	'PHP'),
-(78,	69,	4,	'MYSQL'),
-(79,	70,	2,	'JAVASCRIPT'),
-(80,	70,	3,	'JAVA'),
-(83,	67,	3,	'JAVA');
+(1,	1,	1,	'PHP'),
+(2,	1,	2,	'JAVASCRIPT'),
+(3,	2,	1,	'PHP'),
+(4,	2,	2,	'JAVASCRIPT'),
+(5,	2,	3,	'JAVA'),
+(6,	3,	1,	'PHP'),
+(7,	3,	2,	'JAVASCRIPT'),
+(8,	4,	1,	'PHP'),
+(9,	4,	2,	'JAVASCRIPT'),
+(10,	5,	1,	'PHP'),
+(11,	5,	2,	'JAVASCRIPT'),
+(12,	6,	1,	'PHP'),
+(13,	6,	2,	'JAVASCRIPT'),
+(14,	7,	1,	'PHP'),
+(15,	7,	2,	'JAVASCRIPT'),
+(16,	8,	1,	'PHP'),
+(17,	8,	2,	'JAVASCRIPT'),
+(18,	8,	3,	'JAVA'),
+(19,	9,	1,	'PHP'),
+(20,	9,	2,	'JAVASCRIPT'),
+(21,	9,	3,	'JAVA'),
+(22,	10,	1,	'PHP'),
+(23,	10,	2,	'JAVASCRIPT'),
+(24,	10,	3,	'JAVA'),
+(25,	11,	1,	'PHP'),
+(26,	11,	2,	'JAVASCRIPT'),
+(27,	11,	3,	'JAVA'),
+(28,	12,	1,	'PHP'),
+(29,	12,	2,	'JAVASCRIPT'),
+(30,	13,	1,	'PHP'),
+(31,	13,	2,	'JAVASCRIPT');
 
--- 2025-02-05 13:23:26
+-- 2025-02-07 08:44:43
