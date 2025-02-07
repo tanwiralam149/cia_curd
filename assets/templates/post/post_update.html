@@ -1,14 +1,49 @@
 <div class="container mt-5">
-    <h2>Update Post</h2>
-    <form action="/update-post/1" method="POST">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="Sample Title" required>
-        </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
-            <textarea class="form-control" id="content" name="content" rows="5" required>Sample Content</textarea>
-        </div>
-        <button type="submit" class="btn btn-warning">Update Post</button>
-    </form>
-</div>
+    <div class="row">
+        <div class="col-md-3"></div>
+ 
+         <!--  -->
+         <div class="col-md-6 ">
+            <div class="card shadow-lg p-4 ">
+             <h4>Update New Post</h4>
+             <form action="/add-post" method="POST" enctype="multipart/form-data">
+                 <!-- Post Title -->
+                 <div class="mb-3">
+                     <label for="title" class="form-label">Post Title</label>
+                     <input type="text" class="form-control" id="title" name="title" required>
+                 </div>
+         
+                 <!-- Post Category -->
+                 <div class="mb-3">
+                     <label for="category" class="form-label">Post Category</label>
+                     <select class="form-select" id="category" name="category" required>
+                         <option value="">Select Category</option>
+                         <option value="Technology">Technology</option>
+                         <option value="Lifestyle">Lifestyle</option>
+                         <option value="Travel">Travel</option>
+                         <option value="Food">Food</option>
+                     </select>
+                 </div>
+         
+                 <!-- Post Image -->
+                 <div class="mb-3">
+                     <label for="image" class="form-label">Post Image</label>
+                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                 </div>
+         
+                 <!-- Post Description -->
+                 <div class="mb-3">
+                     <label for="description" class="form-label">Post Description</label>
+                     <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                 </div>
+         
+                 <button type="submit" class="btn btn-primary">Add Post</button>
+             </form>
+            </div>
+            
+         </div>
+     
+       
+        <div class="col-md-3"></div>
+    </div>
+ </div>

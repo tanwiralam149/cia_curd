@@ -19,8 +19,8 @@
     <script src="<?php echo base_url('assets/js/app/controllers/UserController.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/app/controllers/LoginController.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/app/controllers/DashboardController.js'); ?>"></script>
-   
-   
+    <script src="<?php echo base_url('assets/js/app/controllers/PostController.js'); ?>"></script>
+    
 
 	<!-- Toastr CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>

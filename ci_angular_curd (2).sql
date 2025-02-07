@@ -5,6 +5,21 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `category` (`category_id`, `category_name`) VALUES
+(1,	'Javascript'),
+(2,	'Reactjs'),
+(3,	'Nodejs'),
+(4,	'Expressjs');
+
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -258,7 +273,16 @@ INSERT INTO `country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phon
 (238,	'ZM',	'ZAMBIA',	'Zambia',	'ZMB',	894,	260),
 (239,	'ZW',	'ZIMBABWE',	'Zimbabwe',	'ZWE',	716,	263);
 
-SET NAMES utf8mb4;
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `category_id` int NOT NULL,
+  `image` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE `skill` (
@@ -295,7 +319,7 @@ INSERT INTO `user` (`id`, `phone`, `name`, `email`, `password`, `address`, `dob`
 (2,	'9966332211',	'MD ALI',	'ali@gmail.com',	'123456',	'KOLKATA',	'2025-02-26',	'Male',	99,	91,	1,	NULL,	NULL),
 (3,	'8855114400',	'Prakash',	'prakash@gmail.com',	NULL,	'KOLKATA',	'2025-02-27',	'Male',	99,	91,	1,	NULL,	NULL),
 (4,	'9966332211',	'Mustafa Alam',	'mustafa@gmail.com',	NULL,	'KOLKATA , INDIA',	'2025-02-26',	'Male',	99,	91,	1,	NULL,	NULL),
-(5,	'8855114400',	'Tanwir Alam',	'tanwiralam479@gmail.com',	'123456',	'KOLKATA',	'2025-02-25',	'Male',	99,	91,	1,	NULL,	'20250207_071540-images.jpg'),
+(5,	'8855114400',	'Tanwir Alam',	'tanwiralam479@gmail.com',	'123456',	'KOLKATA',	'2025-02-25',	'Male',	99,	91,	1,	NULL,	'20250207_090930-2c7d99fe281ecd3bcd65ab915bac6dd5.jpeg'),
 (6,	'8855114400',	'Md Hussain',	'mdhussain@gmail.com',	NULL,	'KOlkata',	'2025-02-26',	'Male',	10,	54,	1,	NULL,	NULL),
 (7,	'8855114400',	'Tanwir Alam',	'tanwiralam479@gmail.com',	NULL,	'KOLKLATA INDIA',	'2025-02-26',	'Male',	11,	374,	1,	NULL,	NULL),
 (8,	'8855114400',	'Suman Haldar',	'suman@gmail.com',	NULL,	'KOLKATA INDIA',	'2025-02-27',	'Male',	98,	354,	1,	NULL,	NULL),
@@ -344,4 +368,4 @@ INSERT INTO `user_skill` (`id`, `user_id`, `skill_id`, `skill_name`) VALUES
 (30,	13,	1,	'PHP'),
 (31,	13,	2,	'JAVASCRIPT');
 
--- 2025-02-07 08:44:43
+-- 2025-02-07 10:14:16

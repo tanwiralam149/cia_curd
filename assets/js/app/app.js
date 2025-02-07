@@ -34,11 +34,11 @@ app.config(function($routeProvider) {
             templateUrl: 'assets/templates/post/post_list.html?v='+v,
             controller: 'PostController'
         })
-        .when('/posts/add', {
+        .when('/post/add', {
             templateUrl: 'assets/templates/post/post_add.html?v='+v,
             controller: 'PostController'
         })
-        .when('/posts/edit/:id', {
+        .when('/post/edit/:id', {
             templateUrl: 'assets/templates/post/post_update.html?v='+v,
             controller: 'PostController'
         })

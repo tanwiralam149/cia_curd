@@ -49,7 +49,7 @@ app.controller('DashboardController', function($scope,$http,$rootScope, $window,
             if (response.data.status) {
                 toastr.success(response.data.message);
                 $scope.getLoginUserDetail();
-              
+                $('#fileInput').val('');
             } else {
                 toastr.error(response.data.message);
                // $scope.uploadError = true;

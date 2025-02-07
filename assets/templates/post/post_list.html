@@ -1,33 +1,46 @@
-<div class="container card mt-5">
-    <h2>Post List</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Sample Title 1</td>
-                <td>Sample Content 1</td>
-                <td>
-                    <a href="/edit-post/1" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="/delete-post/1" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Sample Title 2</td>
-                <td>Sample Content 2</td>
-                <td>
-                    <a href="/edit-post/2" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="/delete-post/2" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container  mt-5">
+
+    <a class="btn btn-success flex-right" href="#/post/add">Add</a>
+    <div class="card shadow-lg p-4">
+        
+        <h4>Post List</h4>
+        
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Sample Title 1</td>
+                    <td>Technology</td>
+                    <td><img src="/images/sample1.jpg" alt="Sample Image 1" width="100"></td>
+                    <td>Sample Description 1</td>
+                    <td>
+                        <a href="/edit-post/1" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="/delete-post/1" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sample Title 2</td>
+                    <td>Travel</td>
+                    <td><img src="/images/sample2.jpg" alt="Sample Image 2" width="100"></td>
+                    <td>Sample Description 2</td>
+                    <td>
+                        <a href="/edit-post/2" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="/delete-post/2" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  
 </div>
