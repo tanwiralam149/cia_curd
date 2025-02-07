@@ -59,13 +59,17 @@
                {{isLoggedIn}}
             </li>
             <!--  -->
+
             <li ng-if="isLoggedIn" class="nav-item">
-               <a class="nav-link "  href="#/users">Users List</a>
+               <a class="nav-link "  href="#/posts">Posts </a>
+            </li>
+            <li ng-if="isLoggedIn" class="nav-item">
+               <a class="nav-link "  href="#/users">Users </a>
             </li>
             <!--  -->
-            <li ng-if="isLoggedIn" class="nav-item">
+            <!-- <li ng-if="isLoggedIn" class="nav-item">
                <a class="nav-link "  href="#/addusers">Add User</a>
-            </li>
+            </li> -->
             <!--  -->
             <li ng-if="!isLoggedIn" class="nav-item">
                <a class="nav-link "  href="#/login">Login</a>

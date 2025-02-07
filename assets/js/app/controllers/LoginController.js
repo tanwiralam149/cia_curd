@@ -1,10 +1,6 @@
 app.controller('LoginController', function($scope,$http, $window, $location,$rootScope){
     
-    
-    // if ($window.localStorage.getItem("user")) {
-    //     //$location.path('/login');
-    //     $window.location.href = "#/dashboard";
-    // }
+ 
 
     $scope.user = {};
     $scope.isProcessing = false;

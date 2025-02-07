@@ -92,6 +92,17 @@ class User_model extends CI_Model {
         }
         return $user;
     }
+
+    public function getLoginUser($id){
+        $this->db->select('user.*,country.name as country_name');
+        $this->db->join('country','country.id=user.country','left');
+        $user=$this->db->get_where('user',['user.id' => $id])->row_array();
+        foreach($user as &$row){
+            $user['skills']=$this->getUserAllSkill($id);
+        }
+        return $user;
+    }
+
     public function updateUser($id, $data) {
         $this->db->where('id', $id); // Specify the user ID to update
         return $this->db->update('user', $data); // Perform the update
