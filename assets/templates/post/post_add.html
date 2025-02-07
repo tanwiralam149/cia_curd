@@ -16,7 +16,7 @@
                 <!-- Post Category -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Post Category</label>
-                    <select class="form-select" id="category_id" name="category_id" ng-model="post.category" required>
+                    <select class="form-select" id="category_id" name="category_id" ng-model="post.category_id" required>
                         <option value="">Select Category</option>
                         <option value="{{cat.category_id}}" ng-repeat="cat in categories ">{{cat.category_name}}</option>
                     </select>
