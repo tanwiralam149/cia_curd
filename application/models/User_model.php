@@ -105,7 +105,8 @@ class User_model extends CI_Model {
 
     public function updateUser($id, $data) {
         $this->db->where('id', $id); // Specify the user ID to update
-        return $this->db->update('user', $data); // Perform the update
+         $this->db->update('user', $data); // Perform the update
+         return $this->db->affected_rows();
     }
 
     public function deleteUser($id) {

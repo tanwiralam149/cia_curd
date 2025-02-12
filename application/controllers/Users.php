@@ -263,7 +263,7 @@ class Users extends CI_Controller {
         try{
             $id =$this->input->post('id');
             if($this->User_model->deleteUser($postData)){
-                echo json_encode(["status" => "success", "message" => "User registered successfully!","id"=>$id,"data"=>$postData]);
+                echo json_encode(["status" => "success", "message" => "User deleted successfully!","id"=>$id,"data"=>$postData]);
             }else{
                 echo json_encode(["status" => "error", "message" => "User not deleted successfully!","id"=>$id,"data"=>$postData]);
             }

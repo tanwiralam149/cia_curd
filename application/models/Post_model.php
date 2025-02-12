@@ -12,6 +12,35 @@ class Post_model extends CI_Model {
         return $this->db->insert_id();
    }
 
+   public function get_posts(){
+        $this->db->select('post.*, category.category_name');
+        $this->db->join('category','category.category_id=post.category_id','left');
+        $query=$this->db->get('post');
+        return $query->result_array();
+   }
+
+   public function updatePost($id,$data){
+        $this->db->where('id', $id); // Specify the user ID to update
+        $this->db->update('post', $data); // Perform the update
+        return $this->db->affected_rows();
+       //return $this->db->last_query();
+   }
+
+   public function getPostById($id){
+    return $this->db->get_where('post',['id' => $id])->row_array();
+   }
+
+   public function deletePost($id) {
+    if($id){
+        $this->db->where("id", $id);
+        $this->db->delete("post");
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
 }
 
 

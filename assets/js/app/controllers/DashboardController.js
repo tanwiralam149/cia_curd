@@ -5,7 +5,7 @@ app.controller('DashboardController', function($scope,$http,$rootScope, $window,
      $scope.proFileData=localStorage.getItem("user");
      $scope.loginUser=$scope.proFileData ? JSON.parse($scope.proFileData) : '';
      
-     $scope.baseUrl='http://localhost/cia_curd/';
+     $rootScope.baseUrl='http://localhost/cia_curd/';
       
      // Redirect to login if not logged in
      if (!localStorage.getItem("user")) {

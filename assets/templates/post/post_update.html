@@ -1,4 +1,5 @@
-<div class="container mt-5">
+<script src="https://cdn.jsdelivr.net/npm/ng-file-upload@12.0.4/dist/ng-file-upload.min.js"></script>
+<div class="container mt-5" ng-controller="PostController" ng-init="getCategory();editPost();">
     <div class="row">
         <div class="col-md-3"></div>
  
@@ -6,38 +7,39 @@
          <div class="col-md-6 ">
             <div class="card shadow-lg p-4 ">
              <h4>Update New Post</h4>
-             <form action="/add-post" method="POST" enctype="multipart/form-data">
+             <form enctype="multipart/form-data">
+                <input type="hidden" class="form-control" name="id" ng-model="post.id"   >
                  <!-- Post Title -->
                  <div class="mb-3">
-                     <label for="title" class="form-label">Post Title</label>
-                     <input type="text" class="form-control" id="title" name="title" required>
-                 </div>
+                    <label for="title" class="form-label">Post Title</label>
+                    <input type="text" class="form-control" id="title" ng-model="post.title" placeholder="Enter Title" >
+                </div>
          
                  <!-- Post Category -->
                  <div class="mb-3">
-                     <label for="category" class="form-label">Post Category</label>
-                     <select class="form-select" id="category" name="category" required>
-                         <option value="">Select Category</option>
-                         <option value="Technology">Technology</option>
-                         <option value="Lifestyle">Lifestyle</option>
-                         <option value="Travel">Travel</option>
-                         <option value="Food">Food</option>
-                     </select>
-                 </div>
-         
+                    <label for="category" class="form-label">Post Category</label>
+                    <select class="form-select" id="category_id" name="category_id" ng-model="post.category_id" >
+                        <option value="">Select Category</option>
+                        <option value="{{cat.category_id}}" ng-repeat="cat in categories ">{{cat.category_name}}</option>
+                    </select>
+                </div>
                  <!-- Post Image -->
                  <div class="mb-3">
                      <label for="image" class="form-label">Post Image</label>
-                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                     <input type="file" class="form-control" 
+                     ng-model="file"
+                     ngf-select="uploadFile($file)" 
+                     accept="image/*" 
+                     required>
                  </div>
          
                  <!-- Post Description -->
                  <div class="mb-3">
                      <label for="description" class="form-label">Post Description</label>
-                     <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                     <textarea class="form-control" id="description" name="description" ng-model="post.description" rows="5" ></textarea>
                  </div>
          
-                 <button type="submit" class="btn btn-primary">Add Post</button>
+                 <button type="button" ng-click="updatePost()" class="btn btn-primary">Update Post</button>
              </form>
             </div>
             

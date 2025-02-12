@@ -1,4 +1,4 @@
-<div class="container  mt-5">
+<div class="container  mt-5" ng-controller="PostController" ng-init="getAllPosts();">
 
     <a class="btn btn-success flex-right" href="#/post/add">Add</a>
     <div class="card shadow-lg p-4">
@@ -17,28 +17,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Sample Title 1</td>
-                    <td>Technology</td>
-                    <td><img src="/images/sample1.jpg" alt="Sample Image 1" width="100"></td>
-                    <td>Sample Description 1</td>
+                <tr ng-repeat="post in posts track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>{{post.title}}</td>
+                    <td>{{post.category_name}}</td>
+                    <td><img src="{{baseUrl}}/uploads/post/{{post.image}}" alt="Sample Image 1" width="100"></td>
+                    <td> {{post.description.substring(0,50)}}</td>
                     <td>
-                        <a href="/edit-post/1" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="/delete-post/1" class="btn btn-sm btn-danger">Delete</a>
+                       
+
+                        <a class="btn btn-primary btn-sm" href="#/post/edit/{{post.id}}">
+                            <i class="bi bi-pencil-square"></i> 
+                        </a>
+                        
+                        <a ng-click="deletePost(post.id)"  class="btn btn-danger btn-sm" >
+                            <i class="bi bi-trash"></i> 
+                        </a>
+
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Sample Title 2</td>
-                    <td>Travel</td>
-                    <td><img src="/images/sample2.jpg" alt="Sample Image 2" width="100"></td>
-                    <td>Sample Description 2</td>
-                    <td>
-                        <a href="/edit-post/2" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="/delete-post/2" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
+                
             </tbody>
         </table>
     </div>

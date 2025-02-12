@@ -22,6 +22,14 @@ class Post extends CI_Controller {
     }
 
 
+    public function getAllPosts(){
+        $posts = $this->Post_model->get_posts();
+         if (!empty($posts)) {
+             echo json_encode(["status"=>true, "posts" => $posts]);
+         } else {
+             echo json_encode(["status"=>false, "message" => "No posts found"]);
+         }
+   }
 
     public function savePost() {
  
@@ -86,5 +94,106 @@ class Post extends CI_Controller {
       //  }
     }
 
+    public function editPost(){
+        $postData = json_decode(file_get_contents("php://input"), true);
+        try{
+           
+            $post=$this->Post_model->getPostById($postData);
+            if($post){
+                echo json_encode(["status" => true, "post"=>$post]);
+            }else{
+                echo json_encode(["status" => false, "message" => "Post details not get successfuly!"]);
+            }
+         
+         }catch (Exception $e) {
+            echo json_encode(["status" => false, 'message' => $e->getMessage()]);
+        }
+    }
 
+    public function upatePost(){
+        header("Content-Type: application/json"); // Force JSON response
+ 
+           $title        = $this->input->post('title');
+           $category_id  = $this->input->post('category_id');
+           $description  = $this->input->post('description');
+           $postId=$this->input->post('id');
+         
+           if (empty($title) || empty($category_id) || empty($description)) {
+            
+              echo json_encode(["status" => false, "message" => "All fields are required!!!"]);
+           }
+
+          
+           $upload_path = './uploads/post';
+      
+           $file_path = null;
+           $file_name=null;
+           if (!empty($_FILES['file']['name'])) {
+               $config['upload_path']   = $upload_path;
+               $config['allowed_types'] = 'jpg|jpeg|png|gif';
+               $config['max_size']      = 2048;
+               $config['file_name']     = time() . '_' . $_FILES['file']['name'];
+
+               $this->load->library('upload', $config);
+
+               if ($this->upload->do_upload('file')) {
+                   $uploadData = $this->upload->data();
+                   $file_path  = base_url('uploads/post/' . $uploadData['file_name']);
+                   $file_name=$uploadData['file_name'];
+               } else {
+                   echo json_encode(["status" => false, "message" => $this->upload->display_errors()]);
+               }
+           } else {
+                $old_post=$this->Post_model->getPostById($postId);
+                $file_name=$old_post['image'];
+              //  echo json_encode(["status" => false, "message" => "No file uploaded!"]);
+           }  
+
+           //  Insert into database
+           $data = [
+               'title'        => $title,
+               'category_id'  => $category_id,
+               'description'  => $description,
+               'image'   =>  $file_name
+           ];
+
+           $result = $this->Post_model->updatePost($postId,$data);
+
+           if ($result) {
+               echo json_encode(["status" => true, "message" => $result]);
+           } else {
+               echo json_encode(["status" => false, "message" => "Post not updated successfully!"]);
+           }
+
+    }
+
+    
+
+    public function deletePost() {
+        header("Content-Type: application/json");
+
+        // Try getting ID using both methods
+        $id = $this->input->post('id'); // Preferred method
+        if (!$id) {
+            $postData = json_decode(file_get_contents("php://input"), true);
+            $id = $postData['id'] ?? null;
+        }
+    
+        // Debugging output
+        file_put_contents('debug_log.txt', "Received ID: " . print_r($id, true));
+    
+        // Validate ID
+        if (empty($id) || !is_numeric($id)) {
+            echo json_encode(["status" => false, "message" => "Invalid ID provided"]);
+            return;
+        }
+          
+        if($this->Post_model->deletePost($id)){
+            echo json_encode(["status" => true, "message" => "Post deleted successfully!"]);
+        }else{
+            echo json_encode(["status" => false, "message" => "Post not deleted successfully!"]);
+        }
+      
+      
+    }
 }

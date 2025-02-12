@@ -1,11 +1,17 @@
 
-app.controller('PostController', function($scope,$http,$rootScope,$window,$location){
+app.controller('PostController', function($scope,$http,$rootScope,$window,$location,$routeParams,$timeout){
+
+
+
+    if (!localStorage.getItem("user")) {
+        $location.path('/login');
+    }
    
     $scope.posts=[];
     $scope.categories=[];
     $scope.post={};
-    $scope.files = []; // Initialize files array
-
+    //$scope.files = []; // Initialize files array
+    $rootScope.baseUrl='http://localhost/cia_curd/';
 
 
     $scope.getCategory=function(){
@@ -23,24 +29,6 @@ app.controller('PostController', function($scope,$http,$rootScope,$window,$locat
         });
     }
 
-      // Handle file selection
-    //   var blog_formdata = new FormData();
-    //   $scope.getFiles = function(files) {
-    //     console.log("Selected Files:", files); // Debugging step
-
-    //     if (!files || files.length === 0) {
-    //         console.log("No files selected!");
-    //         return;
-    //     }
-    
-    //     blog_formdata.delete('post_image'); // Ensure only one image is appended
-    //     angular.forEach(files, function(value, key) {
-    //         blog_formdata.append('post_image', value);
-    //     });
-    //     $scope.$apply(); 
-    //     console.log("File appended:", blog_formdata.get('post_image')); // Debugging step
-
-    //   };
 
     var formData = new FormData(); // Create FormData object
 
@@ -54,25 +42,29 @@ app.controller('PostController', function($scope,$http,$rootScope,$window,$locat
         }
     };
 
+    $scope.getAllPosts=function(){
+        $http({ url:"http://localhost/cia_curd/index.php/post/getAllPosts", data: '', method: 'GET', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        .then(function(response) {
+            if (response.data.status) {
+                $scope.posts = response.data.posts;
+               // console.log($scope.posts);
+            } else {
+                toastr.error(response.data.message);
+            }
+        }, function(error) {
+            toastr.error(error);
+        });
+    }
     $scope.addPost=function(){
 
         if (!$scope.post || !$scope.post.title) {
-            alert("Please enter a name!");
+            alert("Please enter a title!");
             return;
         }
-
-     
         formData.append('title', $scope.post.title);
         formData.append('description', $scope.post.description);
         formData.append('category_id', $scope.post.category_id);
 
-       // blog_formdata.append('image', $scope.post.image);
-
-        // console.log("formData Content:",formData);
-        // formData.forEach((value, key) => {
-        //     console.log(key ,':', value);
-        // });
-    
          $http({url: "http://localhost/cia_curd/index.php/post/savePost",
                 data: formData, 
                 method: 'POST',
@@ -84,6 +76,7 @@ app.controller('PostController', function($scope,$http,$rootScope,$window,$locat
                         console.log(response);
                         toastr.success(response.data.message);
                         $scope.post={};
+                        $location.path("/posts"); 
                     }else{
                         toastr.error(response.data.message);
                     }			
@@ -92,5 +85,75 @@ app.controller('PostController', function($scope,$http,$rootScope,$window,$locat
         }); 
   
     }
+
+    $scope.editPost=function(){
+        var postId = $routeParams.id;
+        $http({ url:"http://localhost/cia_curd/index.php/post/editPost", data: postId, method: 'POST', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        .then(function(response) {
+            if (response.data.status) {
+                $scope.post = response.data.post;
+               
+                $scope.getCategory();
+                $scope.post.category_id =$scope.post.category_id;
+               // console.log("EDIT Post DATA",$scope.post);
+                $timeout(function() {
+                    $scope.post.category_id = $scope.post.category_id;
+                }, 100);
+            } else {
+                toastr.error(response.data.message);
+            }
+        }, function(error) {
+            toastr.error(error);
+        });
+    }
+
+    $scope.updatePost=function(){
+        if (!$scope.post || !$scope.post.title) {
+            alert("Please enter a title!");
+            return;
+        }
+        formData.append('title', $scope.post.title);
+        formData.append('description', $scope.post.description);
+        formData.append('category_id', $scope.post.category_id);
+        formData.append('id', $scope.post.id);
+
+         $http({url: "http://localhost/cia_curd/index.php/post/upatePost",
+                data: formData, 
+                method: 'POST',
+                timeout: 30000, 
+                headers: { 'Content-Type': undefined}, 
+                transformRequest: angular.identity})
+          .then(function(response) {
+                    if(response.data.status){
+                        console.log(response);
+                        toastr.success(response.data.message);
+                        $scope.post={};
+                        $location.path("/posts"); 
+                    }else{
+                        toastr.error(response.data.message);
+                    }			
+        },function (error){
+            toastr.error(error);
+        }); 
+    }
+
+    $scope.deletePost = function (id) {
+       
+        if (confirm("Are you sure you want to delete this post?")) {
+                $http({ url:"http://localhost/cia_curd/index.php/post/deletePost", data: {id:id}, method: 'POST', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+                .then(function(response) {
+                    if (response.data.status) {
+                       // $scope.getAllPosts();
+                        $scope.posts = $scope.posts.filter(post => post.id !== id);
+                        toastr.success(response.data.message);
+                      
+                    } else {
+                        toastr.error(response.data.message);
+                    }
+                }, function(error) {
+                    toastr.error(response.data.message);
+                });   
+        }
+    };
    
 });
