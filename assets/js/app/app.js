@@ -54,21 +54,58 @@ app.config(function($routeProvider) {
 
 app.controller('HomeController',function($scope,$http,$rootScope,$routeParams){
     $rootScope.baseUrl='http://localhost/cia_curd/';
-    $scope.posts=[];
+
     $scope.post={};
-    $scope.getAllPosts=function(){
-        $http({ url:"http://localhost/cia_curd/index.php/post/getAllPosts", data: '', method: 'GET', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+
+
+
+    $scope.posts = [];
+    $scope.totalPosts = 0;
+    $scope.perPage = 5; // Number of posts per page
+    $scope.currentPage = 1;
+    $scope.searchQuery = '';
+
+  
+    $scope.fetchBlogs=function(offset){
+        $http({ url:"http://localhost/cia_curd/index.php/post/getAllFrontPost", params: {
+            limit: $scope.perPage,
+            offset: offset,
+            search: $scope.searchQuery
+        }, method: 'GET', timeout: 30000, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
         .then(function(response) {
-            if (response.data.status) {
+           // if (response.data.status) {
+               // $scope.posts = response.data.posts;
                 $scope.posts = response.data.posts;
-                console.log($scope.posts);
-            } else {
-                toastr.error(response.data.message);
-            }
+                $scope.totalPosts = response.data.total;
+                $scope.totalPages = Math.ceil($scope.totalPosts / $scope.perPage);
+                console.log("totalPosts",$scope.totalPosts);
+                console.log("totalPages",$scope.totalPages);
+
+            // } else {
+            //     toastr.error(response.data.message);
+            // }
         }, function(error) {
             toastr.error(error);
         });
     }
+
+    // Change Page
+    $scope.changePage = function(page) {
+        if (page < 1 || page > $scope.totalPages) return;
+        $scope.currentPage = page;
+        $scope.fetchBlogs(($scope.currentPage - 1) * $scope.perPage);
+    };
+
+    // Generate Page Numbers
+    $scope.getPages = function() {
+        return new Array($scope.totalPages).fill(0).map((_, i) => i + 1);
+    };
+
+    // Initial Fetch
+    $scope.fetchBlogs(0);
+
+
+
 
     $scope.blogDetail=function(){
         var postId = $routeParams.id;

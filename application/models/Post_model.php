@@ -40,6 +40,31 @@ class Post_model extends CI_Model {
     }
 }
 
+/*FOR FRONTEND */
+   
+
+public function fetch_blogs($limit, $offset, $search) {
+    $this->db->select('post.*, category.category_name')->from('post');
+    $this->db->join('category','category.category_id=post.category_id','left');
+    if (!empty($search)) {
+        $this->db->like('title', $search);
+        $this->db->or_like('description', $search);
+    }
+
+    $this->db->limit($limit, $offset);
+    return $this->db->get()->result();
+}
+
+public function count_blogs($search) {
+    $this->db->from('post');
+
+    if (!empty($search)) {
+        $this->db->like('title', $search);
+        $this->db->or_like('description', $search);
+    }
+
+    return $this->db->count_all_results();
+}
 
 }
 

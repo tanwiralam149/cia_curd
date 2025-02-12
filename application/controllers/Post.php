@@ -196,4 +196,21 @@ class Post extends CI_Controller {
       
       
     }
+
+
+    /*FOR FRONTEND */
+
+    public function getAllFrontPost(){
+        $limit = $this->input->get('limit') ? $this->input->get('limit') : 5;
+        $offset = $this->input->get('offset') ? $this->input->get('offset') : 0;
+        $search = $this->input->get('search') ? $this->input->get('search') : '';
+
+        $result = $this->Post_model->fetch_blogs($limit, $offset, $search);
+        $total = $this->Post_model->count_blogs($search);
+
+        echo json_encode([
+            'posts' => $result,
+            'total' => $total
+        ]);
+    }
 }
