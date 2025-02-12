@@ -5,6 +5,7 @@ class Post extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('Post_model');
+        $this->load->library('form_validation');
     }
 
     public function getAllCategory(){
@@ -20,41 +21,70 @@ class Post extends CI_Controller {
         }
     }
 
-    public function savePost(){
-        header('Content-Type: application/json');
-        print_r($this->input->post());
 
-        $title=$this->input->post('title');
-        $category_id=$this->input->post('category_id');
-        $description=$this->input->post('description');
-        
-        $timestamp = date("Ymd_His");
-        if (!empty($_FILES['file']['name'])) {
-            $uploadPath = './uploads/';
-            $config['upload_path'] = $uploadPath;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif|'; // Allowed file types
-            $config['max_size'] = 2048;  // 2MB max file size
-            $config['file_name'] = $timestamp . "-" . $_FILES['file']['name'];
-           // $config['encrypt_name'] = TRUE; // Encrypts file name to prevent conflicts
-            $this->upload->initialize($config);
-            if (!$this->upload->do_upload('file')) {
-                echo json_encode(["status" => false, "message" => $this->upload->display_errors()]);
-            } else {
-                $fileData = $this->upload->data();
-                // Insert into database
-                $data = array(
-                    'image' =>$fileData['file_name'],
-                );
-                $file = 'uploads/'. $fileData['file_name'];
-                if ($this->User_model->updateUser($userId, $data)) {
-                    echo json_encode(["status" => true,"message"=>'File Uploaded successfully',"image_path"=>base_url($file)]);
-                } else {
-                    echo json_encode(["status" => false, "message" => "DB insert failed"]);
-                }
+
+    public function savePost() {
+ 
+        header("Content-Type: application/json"); // Force JSON response
+         // print_r($this->input->post('key'));
+         
+      //  try {
+         
+            $title        = $this->input->post('title');
+            $category_id  = $this->input->post('category_id');
+            $description  = $this->input->post('description');
+
+          
+            if (empty($title) || empty($category_id) || empty($description)) {
+               // throw new Exception("All fields are required!!!", 400);
+               echo json_encode(["status" => false, "message" => "All fields are required!!!"]);
             }
-        }else{
-            echo json_encode(["status" => false, "message" => 'File is required']);
-        }
-      
+
+           
+            $upload_path = './uploads/post';
+       
+            $file_path = null;
+            if (!empty($_FILES['file']['name'])) {
+                $config['upload_path']   = $upload_path;
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size']      = 2048;
+                $config['file_name']     = time() . '_' . $_FILES['file']['name'];
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('file')) {
+                    $uploadData = $this->upload->data();
+                    $file_path  = base_url('uploads/post/' . $uploadData['file_name']);
+                } else {
+                    //throw new Exception($this->upload->display_errors(), 500);
+                    echo json_encode(["status" => false, "message" => $this->upload->display_errors()]);
+                }
+            } else {
+                //throw new Exception("No file uploaded!", 400);
+                echo json_encode(["status" => false, "message" => "No file uploaded!"]);
+            }  
+
+            //  Insert into database
+            $data = [
+                'title'        => $title,
+                'category_id'  => $category_id,
+                'description'  => $description,
+                'image'   => $uploadData['file_name']
+            ];
+
+            $insert_id = $this->Post_model->insertPost($data);
+
+            if ($insert_id) {
+                echo json_encode(["status" => true, "message" => "Post added successfully!", "post_id" => $insert_id]);
+            } else {
+                echo json_encode(["status" => false, "message" => "Post not added successfully!"]);
+              //  throw new Exception("Database insert failed", 500);
+            }
+
+      //  } catch (Exception $e) {
+           // echo json_encode(["status" =>false, "message" => $e->getMessage()]);
+      //  }
     }
+
+
 }

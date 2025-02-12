@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/ng-file-upload@12.0.4/dist/ng-file-upload.min.js"></script>
 <div class="container mt-5" ng-controller="PostController" ng-init="getCategory();">
    <div class="row">
        <div class="col-md-3"></div>
@@ -10,13 +11,13 @@
                 <!-- Post Title -->
                 <div class="mb-3">
                     <label for="title" class="form-label">Post Title</label>
-                    <input type="text" class="form-control" id="title" ng-model="post.title" placeholder="Enter Title" required>
+                    <input type="text" class="form-control" id="title" ng-model="post.title" placeholder="Enter Title" >
                 </div>
         
                 <!-- Post Category -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Post Category</label>
-                    <select class="form-select" id="category_id" name="category_id" ng-model="post.category_id" required>
+                    <select class="form-select" id="category_id" name="category_id" ng-model="post.category_id" >
                         <option value="">Select Category</option>
                         <option value="{{cat.category_id}}" ng-repeat="cat in categories ">{{cat.category_name}}</option>
                     </select>
@@ -25,19 +26,31 @@
                 <!-- Post Image -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Post Image</label>
-                    <input type="file" class="form-control" onchange="angular.element(this).scope().selectImage(this.files)" id="image" name="postImage"  accept="image/*" required>
+                    <!-- <input type="file" class="form-control" name="post_image" ng-files="getFiles($files)"  accept="image/*" > -->
+                 
+
+                    <!-- <input type="file" class="form-control" 
+                    ngf-select="uploadFile($file)" 
+                    accept="image/*" required> -->
+                    <input type="file" class="form-control" 
+       ng-model="file"
+       ngf-select="uploadFile($file)" 
+       accept="image/*" 
+       required>
+
+                    
                 </div>
         
                 <!-- Post Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Post Description</label>
-                    <textarea class="form-control" id="description" name="description" ng-model="post.description" rows="5" required></textarea>
+                    <textarea class="form-control" id="description" name="description" ng-model="post.description" rows="5" ></textarea>
                 </div>
         
                 <button type="button" ng-click="addPost()" class="btn btn-primary">Add Post</button>
             </form>
            </div>
-           
+      
         </div>
     
       

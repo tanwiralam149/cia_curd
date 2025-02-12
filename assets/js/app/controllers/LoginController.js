@@ -41,7 +41,5 @@ app.controller('LoginController', function($scope,$http, $window, $location,$roo
                 $scope.isProcessing = false;
             });
 
-      
-        
     }
 });

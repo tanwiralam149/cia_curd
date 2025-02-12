@@ -6,6 +6,12 @@ class Post_model extends CI_Model {
         $query=$this->db->get("category");
         return $query->result_array();
     }
+
+    public function insertPost($data){
+        $this->db->insert('post', $data);
+        return $this->db->insert_id();
+   }
+
 }
 
 

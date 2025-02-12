@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('myApp', ['ngRoute','ngFileUpload']);
 var v = Math.random(); 
 
 
@@ -60,3 +60,11 @@ app.controller('MainController', function($scope, $rootScope, $location) {
         $location.path('/login');
     };
 });
+
+
+
+
+
+
+
+

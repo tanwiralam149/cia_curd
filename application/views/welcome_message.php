@@ -20,7 +20,7 @@
     <script src="<?php echo base_url('assets/js/app/controllers/LoginController.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/app/controllers/DashboardController.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/app/controllers/PostController.js'); ?>"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/ng-file-upload@12.0.4/dist/ng-file-upload.min.js"></script>
 
 	<!-- Toastr CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
